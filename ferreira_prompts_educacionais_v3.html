@@ -1,0 +1,320 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f0f0f;color:#ddd;font-family:'Inter',sans-serif;padding-bottom:60px}
+
+.header{padding:22px 18px 16px;background:#111;border-bottom:1px solid #1e1e1e;text-align:center}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:5px;color:#fff}
+.brand span{color:#f5c400}
+.sub{font-size:11px;color:#444;letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+
+.intro{background:#141414;border:1px solid #1e1e1e;border-left:3px solid #f5c400;border-radius:0 10px 10px 0;margin:14px 14px 6px;padding:12px 14px;font-size:12.5px;color:#666;line-height:1.6}
+.intro strong{color:#aaa}
+
+.tabs{display:flex;gap:0;border-bottom:1px solid #1e1e1e;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:100px;padding:12px 8px;text-align:center;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#444;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
+.tab.on{color:#f5c400;border-bottom-color:#f5c400;background:rgba(245,196,0,.04)}
+
+.section{display:none;padding:14px}
+.section.on{display:block}
+
+.card{background:#141414;border:1px solid #1e1e1e;border-radius:14px;margin-bottom:16px;overflow:hidden}
+.card-header{padding:14px 16px 0}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.b-info{background:rgba(0,180,255,.15);color:#00b8ff;border:1px solid rgba(0,180,255,.2)}
+.b-elec{background:rgba(245,196,0,.15);color:#f5c400;border:1px solid rgba(245,196,0,.2)}
+.b-viral{background:rgba(255,80,80,.15);color:#ff5050;border:1px solid rgba(255,80,80,.2)}
+.b-edu{background:rgba(80,210,130,.15);color:#50d282;border:1px solid rgba(80,210,130,.2)}
+.b-marca{background:rgba(180,100,255,.15);color:#b464ff;border:1px solid rgba(180,100,255,.2)}
+.b-fmt{background:#181818;color:#444;border:1px solid #222;font-size:9px}
+
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#fff;margin-bottom:6px;line-height:1.1}
+.card-desc{font-size:12px;color:#555;margin-bottom:12px;line-height:1.5;border-left:2px solid #222;padding-left:10px}
+
+.prompt-wrap{position:relative}
+.prompt-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#333;font-weight:600;padding:10px 16px 6px;background:#0d0d0d;border-top:1px solid #1a1a1a}
+.prompt-body{background:#0d0d0d;padding:14px 16px;font-size:12px;color:#6a9cb8;line-height:1.8;font-family:'Courier New',monospace;border-left:3px solid #1a3555;white-space:pre-wrap;word-break:break-word}
+
+.highlight{color:#f5c400;font-weight:600}
+.highlight-blue{color:#00b8ff}
+.highlight-green{color:#50d282}
+
+.card-foot{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid #1a1a1a;gap:10px}
+.tool-tip{font-size:11px;color:#3a3a3a;flex:1;line-height:1.4}
+.tool-tip strong{color:#484848}
+.copy-btn{background:#1a1a1a;border:1px solid #2a2a2a;color:#666;border-radius:8px;padding:7px 16px;font-size:11px;font-weight:600;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .15s;white-space:nowrap}
+.copy-btn:hover{background:#222;color:#ccc}
+.copy-btn.ok{background:rgba(80,210,130,.12);color:#50d282;border-color:rgba(80,210,130,.3)}
+
+.section-note{background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:12px;color:#555;line-height:1.6}
+.section-note strong{color:#888;display:block;margin-bottom:4px;font-size:13px}
+</style>
+
+<div class="header">
+  <div class="brand">FERREIRA.<span>ELETROTECH</span></div>
+  <div class="sub">Prompts realistas · educacionais · virais</div>
+</div>
+
+<div class="intro">
+  <strong>Como usar:</strong> Copie o prompt completo e cole no <strong>Midjourney v6</strong>, <strong>DALL-E 3</strong> ou <strong>Adobe Firefly</strong>. Os prompts já incluem instruções de câmera, iluminação, composição e conteúdo educacional para máximo impacto visual e alcance orgânico.
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="tab(this,'informatica')">💻 Informática</div>
+  <div class="tab" onclick="tab(this,'eletrica')">⚡ Elétrica</div>
+  <div class="tab" onclick="tab(this,'educacional')">📚 Educacional</div>
+  <div class="tab" onclick="tab(this,'viral')">🔥 Viral</div>
+</div>
+
+<!-- INFORMATICA -->
+<div class="section on" id="sec-informatica">
+
+<div class="section-note">
+  <strong>💡 Estratégia de conteúdo — Informática</strong>
+  Posts educativos sobre manutenção geram 3x mais salvamentos que posts comuns. Use esses prompts para mostrar o processo e o conhecimento técnico da Ferreira.Eletrotech.
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-info">Informática</span><span class="badge b-edu">Educacional</span><span class="badge b-fmt">POST 1:1</span></div>
+    <div class="card-title">Por que seu notebook superaquece?</div>
+    <div class="card-desc">Ideal para carrossel explicativo. A imagem mostra visualmente a causa do problema — pasta térmica ressecada — de forma dramática e educativa.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p1">Hyperrealistic macro photography educational image: extreme close-up cross-section view of a laptop CPU heatsink assembly, split perfectly down the middle to show two contrasting states side by side. LEFT SIDE — dried, cracked, gray thermal paste residue between the copper heatsink base and the CPU integrated heat spreader, the paste separated and crumbled like desert earth with visible air gaps, temperature reads 97°C on a small embedded digital thermometer probe visible in frame. RIGHT SIDE — freshly applied Arctic MX-4 thermal compound in a perfect pea-sized dot, graphite-silver colored, slightly spread from mounting pressure, thermometer reads 61°C. The copper heatsink fins in the background catch warm orange light and contrast beautifully with the silver CPU die. Small infographic text overlaid in clean white sans-serif typography: LEFT reads "PASTA SECA = CPU A 97°C", RIGHT reads "PASTA NOVA = CPU A 61°C". Shot on Nikon Z8 100mm f/2.8 macro. Background: blurred PCB traces in deep green bokeh. Photorealistic, educational tech content, editorial quality. 8K resolution.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Você sabia que pasta térmica seca pode derreter seu processador? Troca preventiva salva seu notebook! 🔥 Orçamento gratuito."</div>
+    <button class="copy-btn" onclick="cp(this,'p1')">Copiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-info">Informática</span><span class="badge b-edu">Educacional</span><span class="badge b-fmt">CARROSSEL</span></div>
+    <div class="card-title">Os 5 vírus mais perigosos do seu PC — visualizados</div>
+    <div class="card-desc">Imagem de capa chamativa para carrossel educativo sobre segurança digital. Alto potencial de compartilhamento.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p2">Cinematic educational infographic-style image: a Windows desktop screen photographed on a monitor in a dark room, the screen showing a command prompt window with scrolling red warning text and a stylized skull-and-crossbones ASCII art in bright red. Around the monitor, five glowing holographic icons float in the air like augmented reality projections, each labeled with clean white typography: "RANSOMWARE" (padlock icon), "KEYLOGGER" (keyboard icon), "TROJAN" (horse icon), "SPYWARE" (eye icon), "ADWARE" (ad banner icon). Each icon pulses with a different color: red, orange, purple, cyan, yellow. The room is dramatically underlit — a single blue LED strip behind the monitor desk. The monitor keyboard has one key illuminated in red: the ENTER key. The overall mood is tense, like a cybercrime documentary. On screen, bottom of the frame in bold white text: "SEU PC ESTÁ EM RISCO?" — this text is part of the screen, not overlaid. Shot on Sony A7S III with 35mm f/1.4, cinematic color grade, deep blacks. Photorealistic, motion picture quality, 8K.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Seu PC pode estar infectado agora mesmo sem você saber. Arrasta pra ver os sinais! 👉 Limpeza e formatação com garantia."</div>
+    <button class="copy-btn" onclick="cp(this,'p2')">Copiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-info">Informática</span><span class="badge b-viral">Viral</span><span class="badge b-fmt">REELS COVER</span></div>
+    <div class="card-title">HD vs SSD — a diferença que muda tudo</div>
+    <div class="card-desc">Comparativo visual dramático entre os dois tipos de armazenamento. Conteúdo altamente compartilhável e educativo.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p3">Ultra-realistic side-by-side product comparison photograph with dramatic studio lighting: LEFT — a 2.5-inch Western Digital Blue hard disk drive, lid partially removed to expose the spinning magnetic platters reflecting amber studio light like a vinyl record, the read/write arm frozen mid-seek, the platters visibly scratched with a catastrophic head crash scar, small red label reads "TEMPO DE BOOT: 2 MIN 40 SEG". RIGHT — a Samsung 980 Pro M.2 NVMe SSD, standing upright against a black acrylic surface, its NAND flash chips visible through a cutaway section, no moving parts, no scratches, clean and perfect, small green label reads "TEMPO DE BOOT: 8 SEGUNDOS". Between them: a bold glowing lightning bolt dividing the frame, lit in electric white. Top of frame: clean white sans-serif text "HDD vs SSD — QUAL O SEU?" Each drive casts a perfect soft shadow on the dark gray background. Shot with Phase One XT camera, 90mm lens, product photography lighting with two strip softboxes. Photorealistic, e-commerce hero shot meets educational infographic. 8K.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Troca de HD por SSD é o upgrade mais impactante que existe. Notebook lento nunca mais! ⚡ Consulta sem compromisso."</div>
+    <button class="copy-btn" onclick="cp(this,'p3')">Copiar</button>
+  </div>
+</div>
+
+</div>
+
+<!-- ELETRICA -->
+<div class="section" id="sec-eletrica">
+
+<div class="section-note">
+  <strong>⚡ Estratégia de conteúdo — Elétrica</strong>
+  Conteúdo sobre riscos elétricos e prevenção de acidentes gera enorme alcance orgânico. Educar é a melhor forma de gerar confiança e atrair clientes em Saquarema.
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-elec">Elétrica</span><span class="badge b-edu">Educacional</span><span class="badge b-fmt">POST 1:1</span></div>
+    <div class="card-title">O disjuntor que ninguém troca — e devia</div>
+    <div class="card-desc">Imagem educativa sobre disjuntores danificados. Um dos maiores riscos em residências antigas. Conteúdo preventivo de alto impacto.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p4">Photorealistic split educational photograph: extreme close-up macro of two circuit breakers side by side inside a residential electrical panel, both in sharp focus. LEFT breaker — old 1980s Siemens breaker: yellowed and brittle plastic housing, visible hairline cracks along the toggle base, burn marks around the wire terminal showing signs of heat damage, the wire insulation at the terminal melted and discolored, the contact rating label faded and unreadable. A small red warning icon appears overlaid in the corner: "⚠ RISCO DE INCÊNDIO". RIGHT breaker — brand new DIN Schneider Electric iC60N breaker: crisp white housing, clear rating markings "20A" in bold, the wire terminal clamped to a properly sized copper conductor with appropriate insulation color, clean and clinical. A small green check icon overlaid: "✓ INSTALAÇÃO SEGURA". The panel interior background shows copper busbars catching warm light. Dramatic single-source lighting from top-right. Photorealistic, electrical engineering educational content, National Electrical Code visual guide aesthetic. Canon EOS R5 100mm f/2.8L macro. 8K ultra-sharp.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Esse disjuntor pode incendiar sua casa enquanto você dorme. A maioria das residências em Saquarema tem esse problema. Faça uma vistoria! 🔥"</div>
+    <button class="copy-btn" onclick="cp(this,'p4')">Copiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-elec">Elétrica</span><span class="badge b-edu">Educacional</span><span class="badge b-viral">Viral</span><span class="badge b-fmt">CARROSSEL</span></div>
+    <div class="card-title">Fio preto, azul ou verde? O que cada cor significa</div>
+    <div class="card-desc">Um dos conteúdos mais pesquisados sobre elétrica no Brasil. Ótimo para salvar e compartilhar — aumenta alcance orgânico.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p5">Hyperrealistic educational infographic photograph: five electrical wires stripped of insulation at the tips, arranged in a perfect horizontal row against a clean dark charcoal background, each wire labeled with Brazilian NBR 5410 standard color coding. From left to right: PRETO (black wire) — label reads "FASE · 127V ou 220V", VERMELHO (red wire) — label reads "FASE · circuitos trifásicos", BRANCO (white wire) — label reads "NEUTRO · retorno seguro", VERDE (green wire) — label reads "TERRA · proteção contra choque", AZUL CLARO (light blue wire) — label reads "NEUTRO · NBR 5410". Each wire is photographed with extreme macro detail showing the fine copper strands, lightly twisted, the bare copper gleaming under three-point white studio lighting. The labels appear as clean white adhesive tape tags with black printed text, tied with a small copper clip. The arrangement is precise, symmetrical, clinical. Background is matte dark gray with subtle concrete texture. Bottom of frame: "NORMA NBR 5410 · BRASIL" in small white sans-serif type. Nikon Z9 105mm f/2.8 macro. Photorealistic, electrical safety educational content, 8K.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Salva esse post! 💾 Sabe o que cada fio significa na sua casa? Errar a fiação pode matar. Compartilha com quem precisa saber."</div>
+    <button class="copy-btn" onclick="cp(this,'p5')">Copiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-elec">Elétrica</span><span class="badge b-edu">Educacional</span><span class="badge b-fmt">STORIES 9:16</span></div>
+    <div class="card-title">Tomada queimada — você reconhece os sinais?</div>
+    <div class="card-desc">Stories educativo sobre um dos problemas mais comuns e perigosos em residências. Gera medo saudável e busca pelo serviço.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p6">Vertical 9:16 format photorealistic educational image: a standard Brazilian ABNT NBR 14136 electrical outlet (3-pin, white) mounted on a white residential wall, photographed at eye-level with a 50mm lens. The outlet shows clear signs of dangerous damage: brown-black scorch marks radiating from the live pin hole, the plastic faceplate cracked and slightly melted at the upper corner, the wall paint around the outlet yellowed and bubbled from heat. One of the ground pins shows green corrosion. A transparent educational overlay diagram appears floating slightly in front of the outlet, connected by thin white leader lines to each damage point, like an anatomy illustration: ARROW 1 pointing to scorch marks — "Arco elétrico: risco imediato de incêndio". ARROW 2 pointing to cracked plate — "Plástico trincado: choque ao toque". ARROW 3 pointing to corrosion — "Corrosão: contato instável = superaquecimento". At the top of the frame in bold red sans-serif: "VOCÊ TEM ISSO EM CASA?" Leave bottom 25% of frame clean for caption text overlay. Neutral ambient room lighting, extremely photorealistic, electrical safety public awareness campaign aesthetic. 8K.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Se você tem uma tomada assim em casa, PARA TUDO e chama um eletricista. Não é frescura — é sobrevivência. 📲 Saquarema e região."</div>
+    <button class="copy-btn" onclick="cp(this,'p6')">Copiar</button>
+  </div>
+</div>
+
+</div>
+
+<!-- EDUCACIONAL -->
+<div class="section" id="sec-educacional">
+
+<div class="section-note">
+  <strong>📚 Por que conteúdo educacional vende mais?</strong>
+  Quando você ensina, você prova que sabe. Quem aprende com você, contrata você. Esses prompts geram imagens que explicam e impressionam ao mesmo tempo.
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-edu">Educacional</span><span class="badge b-info">Informática</span><span class="badge b-fmt">INFOGRÁFICO</span></div>
+    <div class="card-title">Como funciona a memória RAM — visualizada</div>
+    <div class="card-desc">Explica visualmente um conceito técnico de forma acessível. Ideal para público leigo que quer entender seu computador.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p7">Hyperrealistic conceptual educational photograph: a Kingston DDR4 16GB RAM stick photographed macro from directly above (top-down overhead), the DRAM chips enlarged to fill the frame, each chip clearly visible with its part number markings. The image is overlaid with a clean, minimalist educational diagram rendered as if projected in augmented reality: glowing cyan dotted lines connect each chip to floating text boxes that explain the function in Portuguese: "CADA CHIP ARMAZENA DADOS TEMPORARIAMENTE" (pointing to a DRAM chip), "VELOCIDADE: 3200 MHz = 3.2 BILHÕES DE CICLOS POR SEGUNDO" (pointing to the PCB trace patterns), "SEM RAM: SEU PC NÃO CONSEGUE ABRIR NENHUM PROGRAMA" (floating at the top, full width). The RAM stick itself is lit dramatically — cool blue LED strip from the left catches the PCB surface texture beautifully, the gold contact fingers at the bottom gleam. The background is dark matte black. The AR-style overlays are clean white with thin cyan borders — Apple Vision Pro HUD aesthetic. Sony A1 with 90mm macro. Photorealistic, tech education YouTube thumbnail meets Apple product photography. 8K.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "RAM é a memória de curto prazo do seu PC. Pouca RAM = PC travando. Simples assim. Upgrade a partir de R$X — consulta gratuita!"</div>
+    <button class="copy-btn" onclick="cp(this,'p7')">Copiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-edu">Educacional</span><span class="badge b-elec">Elétrica</span><span class="badge b-fmt">INFOGRÁFICO</span></div>
+    <div class="card-title">O que acontece quando a tensão oscila na sua casa</div>
+    <div class="card-desc">Explica de forma visual e dramática por que o estabilizador ou o nobreak são essenciais. Gera urgência para o serviço.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p8">Cinematic educational split-frame photorealistic image showing electrical voltage fluctuation effects. TOP HALF of image: a clean oscilloscope screen showing a healthy 127V 60Hz sine wave — perfect, smooth, green glowing line on dark screen, labeled "TENSÃO ESTÁVEL: 127V". BOTTOM HALF: the same oscilloscope screen but now showing a chaotic waveform — voltage spikes to 220V represented as violent upward peaks, dropouts to near zero represented as flat lines, irregular noise throughout, the display now red-tinted and labeled "OSCILAÇÃO DETECTADA: RISCO AOS EQUIPAMENTOS". Around the oscilloscope screen on both halves, out-of-focus background elements reinforce the story: TOP — a healthy TV, desktop computer and refrigerator glowing normally in a well-lit home. BOTTOM — the same appliances but with the TV screen flickering, the computer case emitting a faint smoke wisp from the rear PSU fan, the refrigerator motor sparking. Clean white typography overlaid between the two frames: "SUA REDE ELÉTRICA FAZ ISSO COM SEUS APARELHOS". Shot with cinema camera, educational documentary aesthetic. 8K photorealistic.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Oscilação de tensão destrói geladeira, TV, computador e AC silenciosamente. Instale um DPS ou estabilizador antes que seja tarde. Chama a Ferreira.Eletrotech!"</div>
+    <button class="copy-btn" onclick="cp(this,'p8')">Copiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-edu">Educacional</span><span class="badge b-viral">Viral</span><span class="badge b-fmt">POST QUADRADO</span></div>
+    <div class="card-title">Limpeza de PC — o que sai de dentro impressiona</div>
+    <div class="card-desc">Conteúdo com altíssimo fator de nojo e surpresa — dois dos maiores gatilhos para compartilhamento orgânico.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p9">Photorealistic dramatic overhead flat-lay photograph: a white examination surface (like a medical tray) with two distinct zones. LEFT ZONE labeled "ANTES DA LIMPEZA": a disassembled desktop PC fan removed from a computer, its blades completely caked in thick gray-brown dust and debris — the dust is dense enough to visually change the shape of the blades, pet hair woven between them, one blade tip shows a small chip from a debris impact. Next to it, the CPU heatsink fins completely choked with a solid mat of gray dust, no airflow possible. A small collection jar labeled "POEIRA COLETADA" sits nearby, visibly full of gray dust. RIGHT ZONE labeled "DEPOIS DA LIMPEZA": the identical fan, now ultrasonically cleaned — the blades pristine transparent blue-gray plastic, the bearings oiled and spinning freely (shown with a motion blur indicator), the heatsink fins completely clear with copper visible. The collection jar beside it is labeled "RISCO ELIMINADO" with a green checkmark. The photographic lighting is clinical, forensic — overhead LED panel, no shadows, everything sharp. Top of frame in bold black sans-serif on white strip: "O QUE ESTAVA MATANDO SEU PC" — Shot on Hasselblad H6D-100c overhead rig. 8K photorealistic, product documentation meets ASMR cleaning content aesthetic.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Isso estava dentro de um PC de cliente hoje. A poeira sufoca a CPU, esquenta tudo e mata o hardware. Manutenção preventiva salva seu equipamento! 💨"</div>
+    <button class="copy-btn" onclick="cp(this,'p9')">Copiar</button>
+  </div>
+</div>
+
+</div>
+
+<!-- VIRAL -->
+<div class="section" id="sec-viral">
+
+<div class="section-note">
+  <strong>🔥 Fórmula do viral para técnicos locais</strong>
+  Conteúdo que gera emoção (susto, nojo, surpresa, alívio) + conteúdo local (Saquarema) + CTA claro = alcance orgânico explosivo no Instagram e TikTok.
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-viral">Viral</span><span class="badge b-elec">Elétrica</span><span class="badge b-fmt">REELS COVER</span></div>
+    <div class="card-title">O quadro elétrico que quase incendiou tudo</div>
+    <div class="card-desc">Imagem dramática de situação real de risco — cria medo, gera compartilhamentos e posiciona você como especialista que salva vidas.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p10">Photojournalistic dramatic photograph: an opened residential electrical panel in extreme disrepair — this is a real crisis scene, not a stock image. The panel interior shows multiple layers of dangerous violations: aluminum wires connected directly to copper busbars without appropriate terminals (visible galvanic corrosion at every junction), four separate wires connected to a single breaker terminal using improvised tape wrapping instead of proper terminals, one breaker has its cover plate missing exposing live contacts, the neutral bar is overloaded with wires wrapped around each other, and visible burn marks in carbon black spread across the back panel from a previous arc flash event. The panel door is bent and will not fully close. The room behind is a modest Brazilian residential kitchen, seen through the open panel door — tile walls, modest home. A single bare incandescent bulb illuminates the scene harshly from directly above, casting dramatic shadows. The overall mood is documentary, urgent, genuine — National Geographic photojournalism meets electrical safety emergency response. No beauty retouching, no color grading — raw, authentic, alarming. Nikon D850 with 24mm f/1.8. ISO 3200, natural high-contrast light. Photorealistic, 8K.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Chegamos antes do bombeiro chegar. Esse era o quadro de uma família em Saquarema. Isso não é exagero — é realidade. Quando foi a última vez que você vistoriou o seu?"</div>
+    <button class="copy-btn" onclick="cp(this,'p10')">Copiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-viral">Viral</span><span class="badge b-info">Informática</span><span class="badge b-fmt">ANTES × DEPOIS</span></div>
+    <div class="card-title">Notebook de 4 anos — transformação completa</div>
+    <div class="card-desc">O formato antes/depois é o mais compartilhado do Instagram. Gera satisfação visual e mostra resultado concreto do seu trabalho.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p11">Cinematic split-screen comparison photograph, perfect vertical dividing line down the center: LEFT SIDE labeled "ANTES" in bold white text at top — a Dell Inspiron laptop open on a wooden desk, clearly 4 years old and neglected: the screen showing rainbow artifacts and a large crack in the bottom-left corner with blackened dead pixels spreading inward like ice fractures, the keyboard missing 3 keycaps, the palm rest area deeply scratched and stained, one hinge clearly broken making the screen lean at 15 degrees, the chassis vents on the bottom completely clogged with compressed dust visible in a transparent close-up circle detail in the corner. The desk lighting is dim, defeated, fluorescent. The laptop looks tired. RIGHT SIDE labeled "DEPOIS" — the identical Dell Inspiron model, same desk, but completely transformed: crisp display showing a clean Windows 11 desktop with wallpaper of Saquarema beach at sunset, new keycaps perfectly aligned, palm rest polished and film-protected, hinge repaired and perfectly rigid, bottom vents clean. The keyboard backlight glows softly blue. The desk is now lit by warm golden light. Same shot angle, same lens. Bottom center between the two halves: "FERREIRA.ELETROTECH · SAQUAREMA" in clean white typography. Sony A7R V 35mm f/1.4. Color grade: LEFT desaturated cold, RIGHT warm golden Fuji Velvia emulation. 8K photorealistic.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Esse notebook foi dado como morto. 4 anos de uso, tela quebrada, teclado destruído, travando todo dia. Devolvemos ele como novo. Qual é o seu caso? 📲"</div>
+    <button class="copy-btn" onclick="cp(this,'p11')">Copiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="badges"><span class="badge b-viral">Viral</span><span class="badge b-marca">Marca</span><span class="badge b-fmt">POST PERFIL</span></div>
+    <div class="card-title">O técnico chegou — sensação de alívio</div>
+    <div class="card-desc">Cria identificação emocional. O cliente não compra o serviço, compra a sensação de problema resolvido. Essa imagem vende isso.</div>
+  </div>
+  <div class="prompt-wrap">
+    <div class="prompt-label">✦ Prompt completo para IA</div>
+    <div class="prompt-body" id="p12">Warm cinematic photorealistic photograph: a young Brazilian male technician, mid-20s, confident and approachable expression — a genuine smile, not posed — standing in the doorway of a modest Saquarema residential home. He is framed by the doorway as a natural portrait frame, the interior of the home visible behind him: a family living room with a TV on the wall and a child's drawing on the refrigerator barely visible in the background. He wears a clean dark polo shirt with a small embroidered logo on the chest, carries a professional gray tool case with a transparent lid showing organized interior compartments (multimeter, crimping tool, screwdrivers, cable tester), and has a USB diagnostic dongle clipped to his shirt pocket. The homeowner's hand is visible at the left edge of frame, holding the door open — a gesture of welcome and relief. The light is golden afternoon sun streaming from behind the technician, creating a warm rim light on his hair and shoulders — the light of a problem about to be solved. Leica SL2-S Summicron 35mm f/2. Color grade: warm, Kodak Portra 400 film emulation, slightly lifted shadows. The overall mood: trust, competence, relief. Photorealistic, brand advertising meets documentary photography. 8K.</div>
+  </div>
+  <div class="card-foot">
+    <div class="tool-tip"><strong>Legenda sugerida:</strong> "Aquela sensação quando o técnico chega e você já sabe que vai resolver. É isso que a Ferreira.Eletrotech entrega em Saquarema e região. 📲 Chama no WhatsApp."</div>
+    <button class="copy-btn" onclick="cp(this,'p12')">Copiar</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+function tab(el,id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('sec-'+id).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function cp(btn,id){
+  const txt=document.getElementById(id).innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.textContent='✓ Copiado!';
+    btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('ok')},2500);
+  });
+}
+</script>
