@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f0f0f;color:#ddd;font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:40px}
+
+.header{background:#111;border-bottom:1px solid #1e1e1e;padding:20px 16px 14px;text-align:center}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:#fff}
+.brand span{color:#f5c400}
+.sub{font-size:10px;color:#444;letter-spacing:3px;text-transform:uppercase;margin-top:3px}
+
+.date-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#0d0d0d;border-bottom:1px solid #1a1a1a}
+.date-txt{font-size:11px;color:#444;letter-spacing:1px;text-transform:uppercase}
+.date-txt strong{color:#666}
+.day-badge{background:rgba(245,196,0,.12);border:1px solid rgba(245,196,0,.2);color:#f5c400;border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+
+.controls{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+
+.select-row{display:flex;gap:8px}
+.sel{flex:1;background:#141414;border:1px solid #222;color:#aaa;border-radius:10px;padding:10px 12px;font-size:12px;font-family:'Inter',sans-serif;outline:none;cursor:pointer}
+.sel:focus{border-color:#444}
+
+.gen-btn{width:100%;background:linear-gradient(135deg,#1a1400,#2a2000);border:1px solid #f5c400;color:#f5c400;border-radius:12px;padding:14px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.gen-btn:hover{background:linear-gradient(135deg,#2a2000,#3a2d00);box-shadow:0 0 20px rgba(245,196,0,.15)}
+.gen-btn:disabled{opacity:.5;cursor:not-allowed}
+.gen-btn .spinner{width:16px;height:16px;border:2px solid rgba(245,196,0,.3);border-top-color:#f5c400;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.gen-btn.loading .spinner{display:block}
+.gen-btn.loading .btn-text{display:none}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.results{padding:0 14px}
+
+.empty-state{text-align:center;padding:40px 20px;color:#333}
+.empty-icon{font-size:48px;margin-bottom:12px;opacity:.4}
+.empty-txt{font-size:13px;line-height:1.6}
+
+.prompt-card{background:#141414;border:1px solid #1e1e1e;border-radius:14px;margin-bottom:14px;overflow:hidden;animation:fadeIn .4s ease}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.pc-header{padding:14px 16px 10px;border-bottom:1px solid #1a1a1a}
+.pc-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pc-num{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:#333}
+.pc-format{font-size:10px;color:#444;letter-spacing:1px;text-transform:uppercase}
+.pc-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.b-info{background:rgba(0,180,255,.12);color:#00b8ff;border:1px solid rgba(0,180,255,.2)}
+.b-elec{background:rgba(245,196,0,.12);color:#f5c400;border:1px solid rgba(245,196,0,.2)}
+.b-edu{background:rgba(80,210,130,.12);color:#50d282;border:1px solid rgba(80,210,130,.2)}
+.b-viral{background:rgba(255,80,80,.12);color:#ff5050;border:1px solid rgba(255,80,80,.2)}
+.b-marca{background:rgba(180,100,255,.12);color:#b464ff;border:1px solid rgba(180,100,255,.2)}
+.pc-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:#fff;line-height:1.1}
+
+.pc-desc{padding:10px 16px 12px;font-size:12px;color:#555;line-height:1.5;border-bottom:1px solid #1a1a1a}
+
+.pc-prompt-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#2a2a2a;padding:8px 16px 5px;font-weight:600;background:#0d0d0d}
+.pc-prompt{background:#0d0d0d;padding:12px 16px 14px;font-size:12px;color:#6a9cb8;line-height:1.8;font-family:'Courier New',monospace;border-left:3px solid #1a3555;word-break:break-word;white-space:pre-wrap}
+
+.pc-legenda-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#2a2a2a;padding:8px 16px 5px;font-weight:600;background:#0a0a0a;border-top:1px solid #1a1a1a}
+.pc-legenda{background:#0a0a0a;padding:10px 16px 12px;font-size:12px;color:#556a55;line-height:1.7;font-family:'Courier New',monospace;white-space:pre-wrap;word-break:break-word}
+
+.pc-foot{display:flex;gap:8px;padding:10px 14px;border-top:1px solid #1a1a1a}
+.copy-btn{flex:1;background:#1a1a1a;border:1px solid #222;color:#666;border-radius:8px;padding:8px;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .15s}
+.copy-btn:hover{background:#222;color:#aaa}
+.copy-btn.ok{background:rgba(80,210,130,.1);color:#50d282;border-color:rgba(80,210,130,.25)}
+.save-btn{background:rgba(245,196,0,.08);border:1px solid rgba(245,196,0,.15);color:#f5c400;border-radius:8px;padding:8px 14px;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .15s;white-space:nowrap}
+.save-btn:hover{background:rgba(245,196,0,.15)}
+.save-btn.saved{background:rgba(245,196,0,.2);color:#ffd740}
+
+.saved-section{padding:14px 14px 0}
+.saved-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#333;margin-bottom:10px;font-weight:600;display:flex;align-items:center;gap:8px}
+.saved-title::after{content:'';flex:1;height:1px;background:#1a1a1a}
+.saved-card{background:#111;border:1px solid #1e1e1e;border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.saved-card:hover{border-color:#2a2a2a}
+.saved-card-title{font-size:13px;font-weight:600;color:#888;margin-bottom:4px}
+.saved-card-date{font-size:10px;color:#333;letter-spacing:1px}
+
+.history-bar{display:flex;gap:8px;padding:10px 14px 0;overflow-x:auto;scrollbar-width:none}
+.history-bar::-webkit-scrollbar{display:none}
+.hist-chip{background:#141414;border:1px solid #1e1e1e;border-radius:20px;padding:5px 14px;font-size:10px;color:#444;cursor:pointer;white-space:nowrap;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .15s;flex-shrink:0}
+.hist-chip:hover{border-color:#333;color:#666}
+.hist-chip.on{background:rgba(245,196,0,.08);border-color:rgba(245,196,0,.2);color:#f5c400}
+
+.error-box{background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);border-radius:10px;padding:14px 16px;margin:0 14px 14px;font-size:12px;color:#ff5050;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">FERREIRA.<span>ELETROTECH</span></div>
+  <div class="sub">Gerador de Prompts Diários com IA</div>
+</div>
+
+<div class="date-bar">
+  <div class="date-txt">Hoje: <strong id="today-date">—</strong></div>
+  <div class="day-badge" id="day-badge">—</div>
+</div>
+
+<div class="controls">
+  <div class="select-row">
+    <select class="sel" id="sel-tipo">
+      <option value="automatico">🎲 Automático (IA escolhe)</option>
+      <option value="informatica">💻 Informática</option>
+      <option value="eletrica">⚡ Elétrica</option>
+      <option value="educacional">📚 Educacional</option>
+      <option value="viral">🔥 Viral / Antes×Depois</option>
+      <option value="marca">🎯 Marca / Identidade</option>
+    </select>
+    <select class="sel" id="sel-qtd">
+      <option value="3">3 prompts</option>
+      <option value="5" selected>5 prompts</option>
+      <option value="7">7 prompts</option>
+    </select>
+  </div>
+  <button class="gen-btn" id="gen-btn" onclick="gerar()">
+    <div class="spinner"></div>
+    <span class="btn-text">✦ GERAR PROMPTS DO DIA</span>
+  </button>
+</div>
+
+<div id="hist-wrap" style="display:none">
+  <div class="history-bar" id="hist-bar"></div>
+</div>
+
+<div class="results" id="results">
+  <div class="empty-state">
+    <div class="empty-icon">✦</div>
+    <div class="empty-txt">Clique em <strong style="color:#f5c400">GERAR PROMPTS DO DIA</strong><br>para criar prompts únicos com IA<br>para a Ferreira.Eletrotech hoje.</div>
+  </div>
+</div>
+
+<div class="saved-section" id="saved-section" style="display:none">
+  <div class="saved-title">⭐ Prompts salvos</div>
+  <div id="saved-list"></div>
+</div>
+
+<script>
+const DIAS = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+let saved = [];
+let history = [];
+let currentCards = [];
+
+function initDate(){
+  const d = new Date();
+  document.getElementById('today-date').textContent =
+    `${d.getDate()} ${MESES[d.getMonth()]} ${d.getFullYear()}`;
+  document.getElementById('day-badge').textContent = DIAS[d.getDay()];
+}
+
+function buildSystemPrompt(){
+  const d = new Date();
+  const dias = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+  return `Você é um especialista em marketing digital e criação de conteúdo para redes sociais no Brasil, especializado em criar prompts de imagem para IA (Midjourney, DALL-E 3, Adobe Firefly).
+
+Você cria prompts para a empresa FERREIRA.ELETROTECH com as seguintes características:
+- Técnico em Informática e Eletricista Residencial
+- Localizado em Saquarema e Região, Rio de Janeiro, Brasil
+- Serviços: manutenção de computadores/notebooks, formatação, troca de componentes, instalação elétrica residencial, quadros elétricos, tomadas, fiação
+- Público-alvo: moradores de Saquarema e cidades vizinhas, classe média, todos os perfis
+- Identidade visual: tons escuros, azul elétrico, amarelo/dourado, estilo tecnológico premium
+
+Hoje é ${dias[d.getDay()]}, ${d.getDate()} de ${['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'][d.getMonth()]} de ${d.getFullYear()}.
+
+REGRAS DOS PROMPTS:
+1. Cada prompt deve ser ULTRA detalhado (mínimo 150 palavras) em inglês
+2. Incluir: câmera/lente específica, iluminação, composição, cores, mood, qualidade (8K)
+3. Ser REALISTA e FOTOGRÁFICO — não arte digital, não cartoon
+4. Ter cunho educacional, emocional OU viral (que gere compartilhamento)
+5. Variar os temas para não repetir o mesmo tipo
+6. Mencionar elementos reais brasileiros quando relevante (NBR, marcas locais, casas brasileiras)
+7. A legenda deve ser em português brasileiro, com gancho forte na primeira linha, contexto, CTA para WhatsApp e hashtags
+
+FORMATO DE RESPOSTA — responda APENAS com JSON válido, sem markdown, sem explicações, apenas o objeto JSON:
+{
+  "prompts": [
+    {
+      "titulo": "título criativo em português",
+      "categoria": "informatica|eletrica|educacional|viral|marca",
+      "formato": "Post 1:1|Reels 9:16|Carrossel|Stories|Capa",
+      "descricao": "uma frase explicando o objetivo do post",
+      "prompt": "prompt completo em inglês ultra detalhado",
+      "legenda": "legenda completa em português com emoji, hashtags e CTA"
+    }
+  ]
+}`;
+}
+
+async function gerar(){
+  const btn = document.getElementById('gen-btn');
+  const tipo = document.getElementById('sel-tipo').value;
+  const qtd = document.getElementById('sel-qtd').value;
+  const results = document.getElementById('results');
+
+  btn.disabled = true;
+  btn.classList.add('loading');
+  results.innerHTML = `<div class="empty-state"><div class="empty-icon" style="animation:spin 1s linear infinite;display:inline-block">⟳</div><div class="empty-txt" style="margin-top:12px;color:#555">A IA está criando prompts únicos<br>para hoje...</div></div>`;
+
+  const tipoInstrucao = tipo === 'automatico'
+    ? `Crie ${qtd} prompts variados cobrindo diferentes tipos (informática, elétrica, educacional, viral) — escolha os mais relevantes para uma ${DIAS[new Date().getDay()]}.`
+    : `Crie ${qtd} prompts focados em: ${tipo}. Varie os ângulos e abordagens dentro dessa categoria.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        system: buildSystemPrompt(),
+        messages: [{
+          role: 'user',
+          content: tipoInstrucao + ` Data/hora atual: ${new Date().toISOString()}. IMPORTANTE: Gere prompts completamente diferentes dos convencionais. Seja criativo, surpreendente e específico para o contexto brasileiro de Saquarema. Responda SOMENTE com o JSON, nenhum texto antes ou depois.`
+        }]
+      })
+    });
+
+    const data = await resp.json();
+    const raw = data.content?.map(c => c.text||'').join('');
+
+    let parsed;
+    try {
+      const clean = raw.replace(/```json|```/g,'').trim();
+      parsed = JSON.parse(clean);
+    } catch(e){
+      const match = raw.match(/\{[\s\S]*\}/);
+      if(match) parsed = JSON.parse(match[0]);
+      else throw new Error('JSON inválido');
+    }
+
+    currentCards = parsed.prompts || [];
+    renderCards(currentCards);
+
+    const ts = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    addHistory(tipo, ts, currentCards);
+
+  } catch(err) {
+    results.innerHTML = `<div class="error-box">⚠ Erro ao conectar com a IA: ${err.message}<br><br>Verifique sua conexão e tente novamente.</div>`;
+  }
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+}
+
+function catBadge(cat){
+  const map = {
+    informatica:'<span class="badge b-info">💻 Informática</span>',
+    eletrica:'<span class="badge b-elec">⚡ Elétrica</span>',
+    educacional:'<span class="badge b-edu">📚 Educacional</span>',
+    viral:'<span class="badge b-viral">🔥 Viral</span>',
+    marca:'<span class="badge b-marca">🎯 Marca</span>'
+  };
+  return map[cat] || `<span class="badge b-info">${cat}</span>`;
+}
+
+function renderCards(prompts){
+  const results = document.getElementById('results');
+  if(!prompts||!prompts.length){
+    results.innerHTML='<div class="error-box">Nenhum prompt retornado. Tente novamente.</div>';
+    return;
+  }
+  results.innerHTML = prompts.map((p,i) => `
+    <div class="prompt-card">
+      <div class="pc-header">
+        <div class="pc-meta">
+          <span class="pc-num">PROMPT ${String(i+1).padStart(2,'0')} / ${String(prompts.length).padStart(2,'0')}</span>
+          <span class="pc-format">${p.formato||''}</span>
+        </div>
+        <div class="pc-badges">${catBadge(p.categoria)}</div>
+        <div class="pc-title">${p.titulo||''}</div>
+      </div>
+      <div class="pc-desc">${p.descricao||''}</div>
+      <div class="pc-prompt-label">✦ Prompt para IA (inglês)</div>
+      <div class="pc-prompt" id="prompt-${i}">${p.prompt||''}</div>
+      <div class="pc-legenda-label">💬 Legenda para Instagram</div>
+      <div class="pc-legenda" id="leg-${i}">${p.legenda||''}</div>
+      <div class="pc-foot">
+        <button class="copy-btn" onclick="copyField('prompt-${i}',this)">Copiar Prompt</button>
+        <button class="copy-btn" onclick="copyField('leg-${i}',this)">Copiar Legenda</button>
+        <button class="save-btn" onclick="savePrompt(${i})">⭐ Salvar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function copyField(id, btn){
+  const txt = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.textContent='✓ Copiado!';
+    btn.classList.add('ok');
+    setTimeout(()=>{
+      btn.textContent = id.startsWith('prompt') ? 'Copiar Prompt' : 'Copiar Legenda';
+      btn.classList.remove('ok');
+    }, 2000);
+  });
+}
+
+function savePrompt(i){
+  const p = currentCards[i];
+  if(!p) return;
+  saved.push({...p, savedAt: new Date().toLocaleString('pt-BR')});
+  renderSaved();
+  const btns = document.querySelectorAll('.save-btn');
+  if(btns[i]){btns[i].textContent='✓ Salvo!';btns[i].classList.add('saved');}
+}
+
+function renderSaved(){
+  const sec = document.getElementById('saved-section');
+  const list = document.getElementById('saved-list');
+  if(!saved.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  list.innerHTML = saved.map((p,i)=>`
+    <div class="saved-card" onclick="showSaved(${i})">
+      <div class="saved-card-title">${p.titulo}</div>
+      <div class="saved-card-date">${catBadge(p.categoria)} · ${p.savedAt}</div>
+    </div>
+  `).join('');
+}
+
+function showSaved(i){
+  const p = saved[i];
+  currentCards = [p];
+  renderCards([p]);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function addHistory(tipo, time, cards){
+  const label = tipo==='automatico' ? `${time} · Auto` : `${time} · ${tipo}`;
+  history.unshift({label, cards: JSON.parse(JSON.stringify(cards))});
+  if(history.length > 5) history.pop();
+  renderHistory();
+}
+
+function renderHistory(){
+  const wrap = document.getElementById('hist-wrap');
+  const bar = document.getElementById('hist-bar');
+  if(!history.length){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  bar.innerHTML = history.map((h,i)=>`
+    <div class="hist-chip ${i===0?'on':''}" onclick="loadHistory(${i})">${h.label}</div>
+  `).join('');
+}
+
+function loadHistory(i){
+  currentCards = history[i].cards;
+  renderCards(currentCards);
+  document.querySelectorAll('.hist-chip').forEach((c,j)=>c.classList.toggle('on',j===i));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+initDate();
+</script>
+</body>
+</html>
