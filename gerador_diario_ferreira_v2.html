@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f0f0f;color:#ddd;font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:50px}
+
+.header{background:#111;border-bottom:1px solid #1e1e1e;padding:20px 16px 14px;text-align:center}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:#fff}
+.brand span{color:#f5c400}
+.sub{font-size:10px;color:#444;letter-spacing:3px;text-transform:uppercase;margin-top:3px}
+
+.date-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#0d0d0d;border-bottom:1px solid #1a1a1a}
+.date-txt{font-size:11px;color:#444;letter-spacing:1px;text-transform:uppercase}
+.date-txt strong{color:#666}
+.day-badge{background:rgba(245,196,0,.12);border:1px solid rgba(245,196,0,.2);color:#f5c400;border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+
+.controls{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.select-row{display:flex;gap:8px}
+.sel{flex:1;background:#141414;border:1px solid #222;color:#aaa;border-radius:10px;padding:10px 12px;font-size:12px;font-family:'Inter',sans-serif;outline:none;cursor:pointer}
+
+.gen-btn{width:100%;background:linear-gradient(135deg,#1a1400,#2a2000);border:1px solid #f5c400;color:#f5c400;border-radius:12px;padding:14px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.gen-btn:hover:not(:disabled){background:linear-gradient(135deg,#2a2000,#3a2d00);box-shadow:0 0 20px rgba(245,196,0,.15)}
+.gen-btn:disabled{opacity:.5;cursor:not-allowed}
+
+.spinner{width:16px;height:16px;border:2px solid rgba(245,196,0,.3);border-top-color:#f5c400;border-radius:50%;animation:spin .7s linear infinite;display:none;flex-shrink:0}
+.loading .spinner{display:block}
+.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.results{padding:0 14px}
+
+.empty-state{text-align:center;padding:40px 20px;color:#333}
+.empty-icon{font-size:48px;margin-bottom:12px}
+.empty-txt{font-size:13px;line-height:1.8}
+.empty-txt strong{color:#555}
+
+.prompt-card{background:#141414;border:1px solid #1e1e1e;border-radius:14px;margin-bottom:14px;overflow:hidden;animation:fadeIn .4s ease}
+.pc-header{padding:14px 16px 10px;border-bottom:1px solid #1a1a1a}
+.pc-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pc-num{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:#333}
+.pc-format{font-size:10px;color:#444;letter-spacing:1px;text-transform:uppercase}
+.pc-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.b-info{background:rgba(0,180,255,.12);color:#00b8ff;border:1px solid rgba(0,180,255,.2)}
+.b-elec{background:rgba(245,196,0,.12);color:#f5c400;border:1px solid rgba(245,196,0,.2)}
+.b-edu{background:rgba(80,210,130,.12);color:#50d282;border:1px solid rgba(80,210,130,.2)}
+.b-viral{background:rgba(255,80,80,.12);color:#ff5050;border:1px solid rgba(255,80,80,.2)}
+.b-marca{background:rgba(180,100,255,.12);color:#b464ff;border:1px solid rgba(180,100,255,.2)}
+.pc-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:#fff;line-height:1.1}
+.pc-desc{padding:10px 16px 12px;font-size:12px;color:#555;line-height:1.5;border-bottom:1px solid #1a1a1a}
+
+.section-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#2a2a2a;padding:8px 16px 5px;font-weight:600}
+.prompt-body{background:#0d0d0d;padding:12px 16px 14px;font-size:12px;color:#6a9cb8;line-height:1.8;font-family:'Courier New',monospace;border-left:3px solid #1a3555;word-break:break-word;white-space:pre-wrap}
+.legenda-body{background:#0a0a0a;padding:10px 16px 12px;font-size:12px;color:#556a50;line-height:1.7;font-family:'Courier New',monospace;white-space:pre-wrap;word-break:break-word;border-left:3px solid #1a3010}
+.section-label.leg{background:#0a0a0a;border-top:1px solid #1a1a1a}
+
+.pc-foot{display:flex;gap:8px;padding:10px 14px;border-top:1px solid #1a1a1a;flex-wrap:wrap}
+.copy-btn{flex:1;min-width:100px;background:#1a1a1a;border:1px solid #222;color:#555;border-radius:8px;padding:8px;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .15s}
+.copy-btn:hover{background:#222;color:#aaa}
+.copy-btn.ok{background:rgba(80,210,130,.1);color:#50d282;border-color:rgba(80,210,130,.25)}
+.save-btn{background:rgba(245,196,0,.07);border:1px solid rgba(245,196,0,.15);color:#f5c400;border-radius:8px;padding:8px 14px;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .15s}
+.save-btn:hover{background:rgba(245,196,0,.15)}
+.save-btn.saved{color:#ffd740;background:rgba(245,196,0,.18)}
+
+.saved-section{padding:14px;display:none}
+.saved-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#333;margin-bottom:10px;font-weight:600;display:flex;align-items:center;gap:8px}
+.saved-title::after{content:'';flex:1;height:1px;background:#1a1a1a}
+.saved-item{background:#111;border:1px solid #1e1e1e;border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.saved-item:hover{border-color:#2a2a2a}
+.saved-item-title{font-size:13px;font-weight:600;color:#777;margin-bottom:3px}
+.saved-item-meta{font-size:10px;color:#333}
+
+.hist-bar{display:flex;gap:8px;padding:8px 14px 4px;overflow-x:auto;scrollbar-width:none;display:none}
+.hist-bar::-webkit-scrollbar{display:none}
+.hist-chip{background:#141414;border:1px solid #1e1e1e;border-radius:20px;padding:5px 14px;font-size:10px;color:#444;cursor:pointer;white-space:nowrap;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .15s;flex-shrink:0}
+.hist-chip:hover{border-color:#333;color:#666}
+.hist-chip.on{background:rgba(245,196,0,.08);border-color:rgba(245,196,0,.2);color:#f5c400}
+
+.loading-anim{text-align:center;padding:40px 20px}
+.loading-anim .l-icon{font-size:36px;display:inline-block;animation:spin 1.2s linear infinite}
+.loading-anim p{font-size:13px;color:#444;margin-top:14px;line-height:1.8}
+.loading-anim .l-step{color:#555;font-size:12px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">FERREIRA.<span>ELETROTECH</span></div>
+  <div class="sub">Gerador de Prompts Diários · Groq Cloud</div>
+</div>
+
+<div class="date-bar">
+  <div class="date-txt">Hoje: <strong id="today-date">—</strong></div>
+  <div class="day-badge" id="day-badge">—</div>
+</div>
+
+<div class="controls">
+  <div class="select-row">
+    <select class="sel" id="sel-tipo">
+      <option value="automatico">🎲 Automático</option>
+      <option value="informatica">💻 Informática</option>
+      <option value="eletrica">⚡ Elétrica</option>
+      <option value="educacional">📚 Educacional</option>
+      <option value="viral">🔥 Viral</option>
+      <option value="marca">🎯 Marca</option>
+    </select>
+    <select class="sel" id="sel-qtd">
+      <option value="3">3 prompts</option>
+      <option value="5" selected>5 prompts</option>
+    </select>
+  </div>
+  <button class="gen-btn" id="gen-btn" onclick="gerar()">
+    <div class="spinner"></div>
+    <span class="btn-text">✦ GERAR PROMPTS COM GROQ</span>
+  </button>
+</div>
+
+<div class="hist-bar" id="hist-bar"></div>
+<div class="results" id="results">
+  <div class="empty-state">
+    <div class="empty-icon">✦</div>
+    <div class="empty-txt">Clique em <strong>GERAR PROMPTS COM GROQ</strong><br>para criar conteúdo de alta performance<br>para Ferreira.Eletrotech.</div>
+  </div>
+</div>
+
+<div class="saved-section" id="saved-section">
+  <div class="saved-title">⭐ Salvos</div>
+  <div id="saved-list"></div>
+</div>
+
+<script>
+// ==========================================
+// CONFIGURAÇÃO - COLE SUA CHAVE GROQ ABAIXO
+// ==========================================
+const GROQ_API_KEY = "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"; 
+// ==========================================
+
+const DIAS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const MESES_FULL=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const DIAS_FULL=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+
+let saved=[], history=[], currentCards=[];
+
+function initDate(){
+  const d=new Date();
+  document.getElementById('today-date').textContent=`${d.getDate()} ${MESES[d.getMonth()]} ${d.getFullYear()}`;
+  document.getElementById('day-badge').textContent=DIAS[d.getDay()];
+}
+
+function buildPromptText(tipo, qtd){
+  const d=new Date();
+  const diaS=DIAS_FULL[d.getDay()], dataS=`${d.getDate()} de ${MESES_FULL[d.getMonth()]} de ${d.getFullYear()}`;
+  const tipoTxt = tipo==='automatico'
+    ? `Varie os temas (informática, elétrica, educacional, viral, marca) de forma criativa para uma ${diaS}.`
+    : `Foque em: ${tipo}. Varie ângulos e abordagens dentro dessa categoria.`;
+
+  return `Você é especialista em marketing digital para pequenas empresas brasileiras e criação de prompts de imagem para IA.
+EMPRESA: FERREIRA.ELETROTECH (Informática + Elétrica em Saquarema/RJ).
+Visual: escuro, azul elétrico, amarelo/dourado, tecnológico premium.
+
+Data: ${diaS}, ${dataS}.
+${tipoTxt}
+Gere ${qtd} prompts.
+
+Responda ESTRITAMENTE com um JSON puro no formato:
+{
+  "prompts": [
+    {
+      "titulo": "título em português",
+      "categoria": "informatica",
+      "formato": "Post 1:1",
+      "descricao": "objetivo",
+      "prompt": "prompt em inglês fotorrealista 8k",
+      "legenda": "legenda completa em português com emojis e hashtags"
+    }
+  ]
+}`;
+}
+
+async function gerar(){
+  if (GROQ_API_KEY.includes("COLE_SUA_CHAVE")) {
+      alert("Por favor, insira sua chave da API da Groq no código.");
+      return;
+  }
+
+  const btn=document.getElementById('gen-btn');
+  const tipo=document.getElementById('sel-tipo').value;
+  const qtd=document.getElementById('sel-qtd').value;
+  const results=document.getElementById('results');
+
+  btn.disabled=true;
+  btn.classList.add('loading');
+  results.innerHTML=`<div class="loading-anim"><span class="l-icon">⟳</span><p>A Groq está processando em alta velocidade...<br><span class="l-step">Isso será quase instantâneo.</span></p></div>`;
+
+  try{
+    const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY.trim()}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: "Você é um assistente que gera apenas respostas em formato JSON puro." },
+          { role: "user", content: buildPromptText(tipo, qtd) }
+        ],
+        response_format: { type: "json_object" },
+        temperature: 0.7
+      })
+    });
+
+    if(!resp.ok){
+      const err=await resp.json().catch(()=>({}));
+      throw new Error(err.error?.message||`HTTP ${resp.status}`);
+    }
+
+    const data=await resp.json();
+    const raw = data.choices[0].message.content;
+    const parsed = JSON.parse(raw);
+
+    currentCards=parsed.prompts||[];
+    if(!currentCards.length) throw new Error('Nenhum prompt gerado. Tente novamente.');
+
+    renderCards(currentCards);
+    addHistory(tipo, new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}), currentCards);
+
+  }catch(err){
+    results.innerHTML=`<div style="background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);border-radius:12px;padding:16px;font-size:12.5px;color:#ff5050;line-height:1.7;margin-bottom:14px">
+      <strong style="font-size:14px;display:block;margin-bottom:6px">⚠ Erro Groq API</strong>
+      ${err.message}<br><br>
+      <span style="color:#883333">Verifique sua chave e conexão.</span>
+    </div>`;
+  }
+
+  btn.disabled=false;
+  btn.classList.remove('loading');
+}
+
+function catBadge(cat){
+  const m={informatica:'<span class="badge b-info">💻 Informática</span>',eletrica:'<span class="badge b-elec">⚡ Elétrica</span>',educacional:'<span class="badge b-edu">📚 Educacional</span>',viral:'<span class="badge b-viral">🔥 Viral</span>',marca:'<span class="badge b-marca">🎯 Marca</span>'};
+  return m[cat]||`<span class="badge b-info">${cat}</span>`;
+}
+
+function renderCards(prompts){
+  document.getElementById('results').innerHTML=prompts.map((p,i)=>`
+    <div class="prompt-card">
+      <div class="pc-header">
+        <div class="pc-meta">
+          <span class="pc-num">PROMPT ${String(i+1).padStart(2,'0')}</span>
+          <span class="pc-format">${p.formato||''}</span>
+        </div>
+        <div class="pc-badges">${catBadge(p.categoria)}</div>
+        <div class="pc-title">${p.titulo||''}</div>
+      </div>
+      <div class="pc-desc">${p.descricao||''}</div>
+      <div class="section-label">✦ Prompt para IA (inglês)</div>
+      <div class="prompt-body" id="pr-${i}">${escHtml(p.prompt||'')}</div>
+      <div class="section-label leg">💬 Legenda para Instagram</div>
+      <div class="legenda-body" id="lg-${i}">${escHtml(p.legenda||'')}</div>
+      <div class="pc-foot">
+        <button class="copy-btn" onclick="cp('pr-${i}',this,'Copiar Prompt')">Copiar Prompt</button>
+        <button class="copy-btn" onclick="cp('lg-${i}',this,'Copiar Legenda')">Copiar Legenda</button>
+        <button class="save-btn" id="sv-${i}" onclick="saveCard(${i})">⭐ Salvar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function escHtml(t){return t ? t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : '';}
+
+function cp(id,btn,label){
+  const t=document.getElementById(id);
+  if(!t) return;
+  navigator.clipboard.writeText(t.innerText).then(()=>{
+    btn.textContent='✓ Copiado!';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent=label;btn.classList.remove('ok');},2000);
+  });
+}
+
+function saveCard(i){
+  const p=currentCards[i];if(!p)return;
+  saved.push({...p,savedAt:new Date().toLocaleString('pt-BR')});
+  renderSaved();
+  const b=document.getElementById('sv-'+i);
+  if(b){b.textContent='✓ Salvo';b.classList.add('saved');}
+}
+
+function renderSaved(){
+  const sec=document.getElementById('saved-section');
+  const list=document.getElementById('saved-list');
+  if(!saved.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  list.innerHTML=saved.map((p,i)=>`
+    <div class="saved-item" onclick="showSaved(${i})">
+      <div class="saved-item-title">${p.titulo}</div>
+      <div class="saved-item-meta">${catBadge(p.categoria)} &nbsp;${p.savedAt}</div>
+    </div>
+  `).join('');
+}
+
+function showSaved(i){
+  currentCards=[saved[i]];renderCards(currentCards);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function addHistory(tipo,time,cards){
+  const label=`${time} · ${tipo==='automatico'?'Auto':tipo}`;
+  history.unshift({label,cards:JSON.parse(JSON.stringify(cards))});
+  if(history.length>6)history.pop();
+  renderHistory();
+}
+
+function renderHistory(){
+  const bar=document.getElementById('hist-bar');
+  if(!history.length){bar.style.display='none';return;}
+  bar.style.display='flex';
+  bar.innerHTML=history.map((h,i)=>`
+    <div class="hist-chip ${i===0?'on':''}" onclick="loadHist(${i})">${h.label}</div>
+  `).join('');
+}
+
+function loadHist(i){
+  currentCards=history[i].cards;renderCards(currentCards);
+  document.querySelectorAll('.hist-chip').forEach((c,j)=>c.classList.toggle('on',j===i));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+initDate();
+</script>
+</body>
+</html>
