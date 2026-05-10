@@ -136,7 +136,7 @@ body{background:#0f0f0f;color:#ddd;font-family:'Inter',sans-serif;min-height:100
 // ==========================================
 // CONFIGURAÇÃO - COLE SUA CHAVE GROQ ABAIXO
 // ==========================================
-const GROQ_API_KEY = "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"; 
+const GROQ_API_KEY = "*****************"; 
 // ==========================================
 
 const DIAS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
@@ -156,73 +156,111 @@ function buildPromptText(tipo, qtd){
   const d=new Date();
   const diaS=DIAS_FULL[d.getDay()], dataS=`${d.getDate()} de ${MESES_FULL[d.getMonth()]} de ${d.getFullYear()}`;
 
+  // Banco de temas — expandido e detalhado para máxima variedade
   const temasPorTipo = {
     informatica: [
-      "montagem de PC gamer do zero em bancada de trabalho real com peças espalhadas",
-      "troca de SSD em notebook Lenovo/Dell/Samsung com painel traseiro aberto",
-      "limpeza de cooler de notebook com pasta térmica seca e ressecada visível",
-      "diagnóstico de placa-mãe queimada com multímetro em bancada",
-      "instalação de memória RAM DDR4 em slot de notebook",
-      "tela de notebook quebrada sendo substituída, vidro estilhaçado ao lado",
-      "formatação e reinstalação de Windows com pendrive na USB",
-      "upgrade de HD para SSD — os dois componentes lado a lado",
-      "notebook superaquecendo com fumaça leve saindo da ventilação",
-      "PC desktop que não liga — técnico testando fonte com chave de fenda",
-      "limpeza interna de gabinete com pincel e ar comprimido, pó voando",
-      "cabo flex de tela de notebook delicado sendo reconectado com pinça",
-      "teste de HD com programa CrystalDiskInfo mostrando setores defeituosos",
-      "placa de vídeo GTX/RTX sendo removida de slot PCIe com cuidado",
-      "solda fria em placa-mãe sendo refeita com ferro de solda e flux"
+      "montagem de PC gamer do zero com peças espalhadas na bancada — caixa aberta, cabos soltos, placa-mãe fora do gabinete",
+      "troca de SSD M.2 NVMe em notebook Dell Inspiron com painel traseiro completamente removido e parafusos organizados",
+      "limpeza de cooler de notebook com pasta térmica completamente ressecada e cinza — visível entre o cobre e o chip",
+      "diagnóstico de placa-mãe com multímetro digital — ponteiras nas trilhas, resistores queimados visíveis",
+      "encaixe delicado de pente de RAM DDR4 Kingston no slot de notebook Samsung",
+      "tela LCD trincada de notebook sendo substituída — display novo ao lado, vidro estilhaçado no pano de trabalho",
+      "pendrive bootável com Windows 11 na porta USB enquanto barra de instalação avança na tela",
+      "HD de 500GB e SSD Kingston de 240GB lado a lado — tamanhos, pesos e estruturas internas em contraste",
+      "saída de ventilação de notebook entupida de pó expelindo calor — termômetro infravermelho mostrando 87°C",
+      "PC desktop aberto com fonte testada por chave de fenda no conector PS_ON enquanto voltímetro mede 12V",
+      "pincel antiestático limpando heatsink de CPU com pó denso saindo em nuvem sob luz de bancada",
+      "pinça de precisão reconectando cabo flex de 0.5mm de tela de notebook — trabalho delicadíssimo",
+      "tela do CrystalDiskInfo mostrando HD com status 'Caution' — setores realocados em vermelho",
+      "RTX 3060 sendo extraída do slot PCIe com cuidado — conector de energia desconectado primeiro",
+      "ferro de solda aquecido aplicando estanho em ponto de solda fria na placa-mãe com flux dourado ao redor",
+      "conector de bateria de notebook sendo reconectado após troca — bateria inchada antiga ao lado",
+      "remoção de malware com Malwarebytes — barra de progresso e lista de ameaças encontradas na tela",
+      "substituição de teclado de notebook — membrana antiga levantada, novo teclado pronto para encaixar",
+      "pasta térmica Arctic MX-6 sendo aplicada em cruz no chip de CPU antes de remontar o cooler",
+      "gabinete de PC com gerenciamento de cabos perfeito — feixes organizados com abraçadeiras, antes do fechamento"
     ],
     eletrica: [
-      "quadro elétrico residencial desorganizado sendo reorganizado",
-      "troca de disjuntor queimado com marca de arco elétrico visível",
-      "instalação de tomada 20A para ar-condicionado em parede de alvenaria",
-      "fiação antiga de alumínio sendo substituída por cobre em casa antiga",
-      "instalação de DPS protetor de surto no quadro elétrico",
-      "tomada com plástico derretido ao redor dos pinos — risco real",
-      "passagem de eletroduto embutido em parede com forro aberto",
-      "instalação de iluminação LED em forro de gesso residencial",
-      "medição de tensão em tomada com multímetro mostrando 127V",
-      "quadro elétrico de casa de praia em Saquarema com corrosão por maresia",
-      "aterramento sendo instalado com haste de cobre enterrada no quintal",
-      "curto-circuito em tomada de cozinha — parede escurecida ao redor",
-      "instalação de chuveiro elétrico com fiação correta sendo feita",
-      "fios organizados com abraçadeiras dentro de quadro elétrico novo",
-      "disjuntor antigo dos anos 80 sendo substituído por um moderno"
+      "quadro elétrico residencial antigo com fios cruzados e sem identificação sendo completamente reorganizado",
+      "disjuntor Schneider queimado com marca de arco elétrico preta sendo removido com chave isolada",
+      "instalação de tomada 20A para ar-condicionado em parede de alvenaria — caixa de embutir aberta na parede",
+      "fio de alumínio antigo e quebradiço sendo substituído por cobre 2.5mm em residência dos anos 70",
+      "DPS Intelbras sendo instalado nos trilhos do quadro elétrico antes dos disjuntores",
+      "tomada ABNT com pinos derretidos e plástico marrom queimado ao redor — dano visível por sobrecarga",
+      "eletroduto corrugado passando por parede de alvenaria com furo feito com furadeira de impacto",
+      "spots de LED embutidos no forro de gesso de sala de estar em Saquarema sendo instalados",
+      "multímetro Minipa com ponteiras em tomada residencial — display mostrando 127.3V com iluminação lateral",
+      "quadro elétrico de casa de praia com corrosão branca nas barras de cobre por causa da maresia de Saquarema",
+      "haste de aterramento de cobre sendo cravada com marreta no solo úmido do quintal",
+      "parede de cozinha escurecida em volta de tomada — sinal claro de curto-circuito por sobrecarga",
+      "chuveiro elétrico Lorenzetti sendo instalado com fio 4mm² amarelo-verde de aterramento conectado",
+      "quadro elétrico novo com fios identificados por cores, organizados com abraçadeiras — trabalho finalizado",
+      "disjuntor DIN de 1970 sendo trocado por modelo IEC moderno Schneider — os dois juntos para comparar",
+      "interruptor simples com fio neutro conectado incorretamente — erro comum sendo corrigido",
+      "instalação de ventilador de teto com controle remoto em quarto de casa simples",
+      "cabo PP 3x2.5mm sendo passado sob rodapé com grampos plásticos até tomada nova",
+      "medição de corrente com alicate amperímetro no fio fase do quadro — display mostrando amperes reais",
+      "eletroduto de PVC rígido sendo dobrado com curvador manual para contornar parede de tijolo"
     ],
     educacional: [
-      "diferença visual entre fio 1.5mm e 2.5mm para pessoas leigas",
-      "por que o notebook esquenta: pasta térmica seca visualizada em corte",
-      "cores dos fios elétricos NBR 5410 — guia visual completo",
-      "sinais de que sua instalação elétrica está sobrecarregada",
-      "HD vs SSD: comparativo visual de velocidade e estrutura interna",
-      "o que é e como funciona um disjuntor por dentro",
-      "por que o PC trava: RAM cheia visualizada de forma simples",
-      "diferença entre 127V e 220V e como identificar na sua casa",
-      "5 sinais de que seu notebook precisa de manutenção urgente",
-      "o que acontece dentro do PC quando ele superaquece"
+      "fio 1.5mm e fio 2.5mm cortados transversalmente lado a lado — diferença de espessura do cobre visível",
+      "corte transversal de notebook mostrando pasta térmica ressecada entre CPU e heatsink de cobre",
+      "cinco fios elétricos com isolamento colorido organizados por cor: preto, vermelho, branco, verde, azul claro — NBR 5410",
+      "régua de disjuntores com um deles visivelmente aquecido ao termômetro infravermelho — sobrecarga explicada",
+      "HD aberto mostrando prato magnético giratório vs SSD com chips NAND expostos — anatomia dos dois",
+      "disjuntor desmontado com mola, contatos e mecanismo de desarme expostos para visualização didática",
+      "barra de RAM DDR4 e o que acontece quando ela fica cheia — analogia visual com gavetas",
+      "quadro elétrico com identificação de fase, neutro e terra explicados com setas e labels coloridos",
+      "notebook com temperatura normal e notebook com pasta seca — termômetro infravermelho comparando os dois",
+      "tomada com e sem aterramento — diferença no pino terra e o que significa para a segurança",
+      "velocidade de boot: HD marcando 2min40s vs SSD marcando 9s — cronômetro ao lado de cada um",
+      "capacitor inchado em placa-mãe comparado com capacitor saudável — sinal de defeito explicado",
+      "fio elétrico subdimensionado aquecendo vs fio correto frio — termômetro comparando os dois",
+      "três tomadas sobrecarregadas com benjamim vs distribuição correta em tomadas individuais",
+      "o que é aterramento: diagrama físico real com haste no solo, fio verde e tomada — fotografado em casa real"
     ],
     viral: [
-      "antes e depois de limpeza radical de PC cheio de pó de 5 anos",
-      "quantidade absurda de pó retirado de dentro de notebook",
-      "notebook que o cliente disse que não tinha conserto — funcionando",
-      "quadro elétrico mais perigoso já atendido — fios por todos os lados",
-      "tomada que quase causou incêndio — plástico completamente derretido",
-      "PC gamer montado do zero — da caixa vazia ao setup funcionando",
-      "casa em Saquarema com instalação elétrica de 40 anos modernizada",
-      "notebook caído com tela quebrada — 1 hora depois funcionando",
-      "HD com setores defeituosos e dados recuperados com sucesso",
-      "antes e depois de quadro elétrico caótico totalmente reorganizado"
+      "flat-lay de todo o pó retirado de dentro de notebook de 4 anos — quantidade chocante num papel branco",
+      "notebook Lenovo que cliente disse 'esse não tem mais jeito' funcionando com tela nova exibindo Windows limpo",
+      "quadro elétrico residencial mais caótico já atendido — fios de todas as cores amarrados com fita isolante",
+      "tomada de cozinha com plástico completamente fundido — aparência de ter derretido de verdade",
+      "PC gamer: lado esquerdo da foto com peças na caixa, lado direito com setup montado e RGB ligado",
+      "casa em Saquarema com fiação de 1984 totalmente modernizada — quadro antigo e novo lado a lado",
+      "tela de notebook trincada em queda — 45 minutos depois funcionando perfeitamente com display novo",
+      "HD com erro crítico e dados que 'estavam perdidos para sempre' recuperados e listados na tela",
+      "antes: quadro com fios amarrados com fita e sem disjuntor — depois: quadro organizado e identificado",
+      "notebook completamente desmontado em 47 peças sobre bancada — tudo numerado e organizado",
+      "limpeza de PC com ar comprimido — nuvem de pó saindo do gabinete capturada em foto dramática",
+      "cliente pegando o notebook que foi dado como perdido — expressão de alívio capturada naturalmente",
+      "tomada que 'só faiscava um pouquinho' desmontada revelando cobre completamente oxidado por dentro",
+      "PC que 'não ligava mais' funcionando após troca de capacitor de R$2,00 na placa-mãe",
+      "instalação elétrica improvisada encontrada em casa — extensão como fiação permanente embutida na parede"
     ],
     marca: [
-      "técnico chegando na casa do cliente em Saquarema para atendimento domiciliar",
-      "bancada de trabalho organizada com todas as ferramentas da profissão",
-      "mãos de técnico segurando multímetro em frente a quadro elétrico",
-      "técnico sorrindo após concluir serviço com cliente satisfeito ao fundo",
-      "ferramentas organizadas de informática e elétrica juntas na bancada"
+      "técnico autônomo chegando de moto em casa de cliente em Saquarema com maleta de ferramentas",
+      "bancada de trabalho organizada à luz de LED azul — multímetro, solda, chaves, pinças alinhadas",
+      "mãos calejadas de técnico segurando alicate amperímetro na frente de quadro elétrico aberto",
+      "técnico e cliente olhando juntos para notebook funcionando após conserto — satisfação real",
+      "flat-lay de todas as ferramentas: chaves Philips, alicate de bico, multímetro, pasta térmica, ferro de solda",
+      "técnico de costas trabalhando em quadro elétrico — luz de trabalho iluminando o interior do quadro",
+      "mão com luva isolante tocando em disjuntor — detalhe de segurança e profissionalismo",
+      "bancada de informática com gabinete aberto e luz azul interna do PC iluminando o rosto concentrado do técnico"
     ]
   };
+
+  // Ângulos, moods e estilos de luz para forçar variedade visual
+  const angulos = [
+    "extreme close-up macro shot", "overhead bird's-eye flat-lay", "eye-level 45-degree angle",
+    "low-angle looking up", "side profile shot", "three-quarter view", "over-the-shoulder POV",
+    "wide establishing shot", "split-screen before/after", "dramatic single-light side lighting"
+  ];
+  const moods = [
+    "clinical workshop fluorescent light", "warm golden side lamp", "cool blue LED strip backlight",
+    "dramatic single overhead spotlight", "natural window light from left", "dual softbox studio",
+    "moody underlit dark atmosphere", "harsh top-down work light", "cinematic backlit silhouette"
+  ];
+  // Sortear ângulo e mood diferente para cada prompt
+  const shuffleArr = arr => [...arr].sort(()=>Math.random()-.5);
 
   const tiposDisponiveis = tipo === 'automatico'
     ? ['informatica','informatica','eletrica','eletrica','educacional','viral','marca']
@@ -230,44 +268,60 @@ function buildPromptText(tipo, qtd){
 
   const temasEscolhidos = [];
   const usados = {};
+  const angulosShuf = shuffleArr(angulos);
+  const moodsShuf = shuffleArr(moods);
+
   for(let i=0; i<parseInt(qtd); i++){
     const cat = tiposDisponiveis[i % tiposDisponiveis.length];
     const lista = temasPorTipo[cat] || temasPorTipo.informatica;
     if(!usados[cat]) usados[cat] = [];
     let tema, tentativas = 0;
     do { tema = lista[Math.floor(Math.random() * lista.length)]; tentativas++; }
-    while(usados[cat].includes(tema) && tentativas < 10);
+    while(usados[cat].includes(tema) && tentativas < 20);
     usados[cat].push(tema);
-    temasEscolhidos.push({cat, tema});
+    temasEscolhidos.push({
+      cat, tema,
+      angulo: angulosShuf[i % angulosShuf.length],
+      mood: moodsShuf[i % moodsShuf.length]
+    });
   }
 
   const temasStr = temasEscolhidos.map((t,i)=>
-    `Prompt ${i+1} — categoria: ${t.cat} — tema: "${t.tema}"`
-  ).join('\n');
+    `Prompt ${i+1}
+  - Categoria: ${t.cat}
+  - Tema central: "${t.tema}"
+  - Ângulo obrigatório: ${t.angulo}
+  - Iluminação/mood obrigatório: ${t.mood}
+  - O prompt deve ser ÚNICO e diferente dos demais em composição, profundidade de campo e narrativa visual`
+  ).join('\n\n');
 
   return `Você é especialista em criação de prompts fotorrealistas para IA (Midjourney, DALL-E 3, Firefly) e marketing digital para pequenas empresas brasileiras.
 
 EMPRESA: FERREIRA.ELETROTECH
-Responsável: Ferreira — trabalha SOZINHO, é autônomo, atende tudo ele mesmo
+Responsável: Ferreira — trabalha SOZINHO, é autônomo, atende tudo ele mesmo pessoalmente
 Localização: Saquarema e Região, Rio de Janeiro, Brasil
-Serviços: montagem e manutenção de computadores/notebooks, troca de tela, HD, RAM, SSD, formatação, remoção de vírus, recuperação de dados + elétrica residencial (quadros, tomadas, fiação, iluminação, DPS, aterramento)
-Público: moradores de Saquarema, Araruama, São Pedro da Aldeia — casas simples e médias, muitas casas de praia antigas
+Serviços: montagem e manutenção de PCs e notebooks, troca de tela/HD/RAM/SSD, formatação, remoção de vírus, recuperação de dados, solda em placa + elétrica residencial (quadros, tomadas, fiação, LED, DPS, aterramento, chuveiro, ar-condicionado)
+Público: moradores de Saquarema, Araruama, São Pedro da Aldeia — casas simples de alvenaria, muitas casas de praia antigas com instalação velha
 Identidade visual: fundo escuro, azul elétrico (#00b8ff), amarelo/dourado (#f5c400)
 
 Data: ${diaS}, ${dataS}
 
-TEMAS PARA GERAR AGORA:
+TEMAS PARA GERAR — siga EXATAMENTE cada especificação:
 ${temasStr}
 
-REGRAS OBRIGATÓRIAS:
-1. Prompt em inglês: mínimo 120 palavras, cena concreta e fotorrealista, câmera/lente real (ex: Canon EOS R5 50mm f/1.8), iluminação detalhada, composição, 8K
-2. A cena deve parecer FOTO REAL tirada num atendimento — não ilustração, não arte digital
-3. Usar marcas reais quando cabível: Intelbras, Schneider, Lenovo, Dell, Samsung, Kingston, Western Digital
-4. Referenciar contexto brasileiro: casas de alvenaria, quintal simples, ambientes residenciais reais
-5. Legenda em português: gancho forte na linha 1, 2-3 linhas de contexto/dica, CTA para WhatsApp
-6. PROIBIDO nas legendas: "Nossa equipe", "nossa empresa", "nosso time", "nossa equipe técnica" — Ferreira trabalha SOZINHO. Use sempre: "Na Ferreira.Eletrotech", "Aqui na Ferreira.Eletrotech", "Eu resolvo", "Chama o Ferreira", "Aqui eu faço", "Pode contar comigo"
-7. Hashtags locais: #TécnicoSaquarema #EletricistaSaquarema #InformáticaSaquarema #ManutençãoDePC #FerreiraTech #SaquaremaRJ
-8. Cada prompt com ângulo e mood diferente — variar entre macro, wide, overhead, eye-level
+REGRAS OBRIGATÓRIAS PARA TODOS OS PROMPTS:
+1. Prompt em inglês: mínimo 130 palavras, fotorrealista, câmera/lente específica (ex: Canon EOS R5, Nikon Z8, Sony A7R V — com mm e abertura), resolução 8K
+2. Usar o ÂNGULO e o MOOD especificados — isso é obrigatório para garantir variedade
+3. Descrever a cena como FOTO REAL de atendimento — detalhar texturas, materiais, marcas visíveis, sujeira, desgaste realista
+4. Marcas reais quando cabível: Schneider, Intelbras, WEG, Lenovo, Dell, Acer, Samsung, Kingston, Western Digital, Arctic, Lorenzetti
+5. Contexto brasileiro: paredes de alvenaria com textura, azulejo de banheiro, quintal com grama, casas simples
+
+REGRAS OBRIGATÓRIAS PARA TODAS AS LEGENDAS:
+6. Linha 1: gancho que para o scroll — frase de impacto, surpresa ou medo saudável
+7. Linhas 2-4: contexto, dica técnica ou história do caso
+8. CTA FINAL: usar APENAS "Chama no direct 📩" OU "Clica no link da bio 🔗" — NUNCA "chama no WhatsApp" ou "manda mensagem"
+9. PROIBIDO: "Nossa equipe", "nosso time", "nossa empresa" — Ferreira é AUTÔNOMO. Usar: "Na Ferreira.Eletrotech", "Aqui eu faço", "Eu resolvo", "Pode contar comigo", "O Ferreira resolve"
+10. Hashtags: #TécnicoSaquarema #EletricistaSaquarema #InformáticaSaquarema #ManutençãoDePC #FerreiraTech #SaquaremaRJ #ConsertoDeNotebook #EletristaResidencial
 
 Responda SOMENTE com JSON puro, sem texto antes nem depois:
 {
@@ -278,7 +332,7 @@ Responda SOMENTE com JSON puro, sem texto antes nem depois:
       "formato": "Post 1:1",
       "descricao": "objetivo do post em uma frase",
       "prompt": "prompt completo em inglês fotorrealista",
-      "legenda": "legenda completa em português com emojis, CTA e hashtags"
+      "legenda": "legenda completa em português com emojis, CTA (direct ou link da bio) e hashtags"
     }
   ]
 }`;
