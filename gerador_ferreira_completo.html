@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferreira Soluções — Gerador IA</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 2px; }
+  .subtitle { font-size: 13px; color: #666; margin-bottom: 1.5rem; }
+
+  .tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; background: #ebebeb; border-radius: 10px; padding: 4px; }
+  .tab { flex: 1; padding: 9px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 8px; border: none; background: transparent; color: #666; transition: all 0.15s; }
+  .tab.active { background: #fff; color: #1a1a1a; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+
+  .api-card { background: #f5f3ff; border: 1px solid #c4b5fd; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+  .api-row { display: flex; gap: 8px; align-items: center; }
+  .api-card label { font-size: 12px; font-weight: 600; color: #5b21b6; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px; }
+  .api-card input { flex: 1; padding: 8px 12px; border: 1px solid #c4b5fd; border-radius: 8px; font-size: 13px; font-family: monospace; background: #fff; color: #1a1a1a; }
+  .test-btn { padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; background: #7c3aed; border: none; border-radius: 8px; color: #fff; white-space: nowrap; }
+  .test-btn:hover { background: #6d28d9; }
+  .api-hint { font-size: 12px; color: #6d28d9; margin-top: 6px; }
+  .api-hint a { color: #6d28d9; }
+  .test-result { font-size: 12px; margin-top: 8px; padding: 6px 10px; border-radius: 6px; display: none; }
+  .test-result.ok { background: #dcfce7; color: #166534; display: block; }
+  .test-result.fail { background: #fef2f2; color: #991b1b; display: block; }
+
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 1.5rem; }
+  .day-btn { padding: 10px 4px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 11px; text-align: center; cursor: pointer; background: #fff; color: #666; transition: all 0.15s; }
+  .day-btn:hover { background: #f5f5f5; }
+  .day-btn.active { background: #f5f3ff; border-color: #7c3aed; color: #4c1d95; font-weight: 600; }
+  .day-name { display: block; font-weight: 600; font-size: 11px; text-transform: uppercase; margin-bottom: 3px; }
+  .day-theme { font-size: 9px; color: #7c3aed; }
+
+  .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+  .ctrl { display: flex; flex-direction: column; gap: 5px; }
+  .ctrl label { font-size: 11px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.05em; }
+  select { width: 100%; padding: 8px 12px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; background: #fff; color: #1a1a1a; cursor: pointer; }
+
+  .gen-btn { width: 100%; padding: 12px; font-size: 15px; font-weight: 600; cursor: pointer; background: #7c3aed; border: none; border-radius: 10px; color: #fff; transition: background 0.15s; margin-bottom: 1.5rem; }
+  .gen-btn:hover { background: #6d28d9; }
+  .gen-btn:disabled { background: #c4b5fd; cursor: not-allowed; }
+  .gen-btn.green { background: #16a34a; }
+  .gen-btn.green:hover { background: #15803d; }
+  .gen-btn.green:disabled { background: #86efac; }
+
+  .status { text-align: center; padding: 1.5rem; color: #666; font-size: 14px; }
+
+  /* Cards */
+  .card { background: #fff; border: 1px solid #e5e5e5; border-radius: 14px; padding: 1.5rem; margin-top: 1rem; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .post-type { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 10px; border-radius: 6px; }
+  .type-feed { background: #dbeafe; color: #1e40af; }
+  .type-reels { background: #ede9fe; color: #4c1d95; }
+  .type-stories { background: #dcfce7; color: #14532d; }
+  .card-day { font-size: 12px; color: #666; }
+
+  .section-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; margin-top: 14px; }
+  .section-label:first-of-type { margin-top: 0; }
+
+  .caption-box { font-size: 14px; line-height: 1.65; white-space: pre-wrap; background: #f8f8f8; border-radius: 8px; padding: 14px; border: 1px solid #eee; }
+  .hashtags-box { font-size: 12px; color: #2563eb; line-height: 1.9; }
+  .visual-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; font-size: 13px; color: #166534; line-height: 1.5; }
+  .prompt-box { font-size: 13px; line-height: 1.7; background: #1e1e2e; color: #cdd6f4; border-radius: 10px; padding: 16px; font-family: 'Courier New', monospace; white-space: pre-wrap; word-break: break-word; }
+  .prompt-pt { font-size: 13px; color: #555; background: #f8f8f8; border-radius: 8px; padding: 12px; line-height: 1.6; border: 1px solid #eee; }
+  .negative-box { font-size: 12px; color: #991b1b; background: #fef2f2; border-radius: 8px; padding: 10px 12px; border: 1px solid #fecaca; }
+
+  /* Divider entre prompt e legenda */
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0 4px; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e5e5e5; }
+  .divider span { font-size: 12px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .action-btn { font-size: 13px; padding: 7px 14px; border: 1px solid #e5e5e5; border-radius: 8px; background: #fff; color: #444; cursor: pointer; font-weight: 500; }
+  .action-btn:hover { background: #f5f5f5; }
+  .action-btn.primary { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+  .action-btn.primary:hover { background: #6d28d9; }
+  .action-btn.green { background: #16a34a; color: #fff; border-color: #16a34a; }
+  .action-btn.green:hover { background: #15803d; }
+
+  .error-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 1rem 1.25rem; color: #991b1b; font-size: 13px; margin-top: 1rem; line-height: 1.6; }
+
+  .img-controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .platform-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .badge-midjourney { background: #dbeafe; color: #1e40af; }
+  .badge-dalle { background: #fef9c3; color: #713f12; }
+  .badge-leonardo { background: #fce7f3; color: #831843; }
+  .badge-stable { background: #f0fdf4; color: #14532d; }
+  .badge-universal { background: #f3f4f6; color: #374151; }
+
+  .progress-steps { display: flex; gap: 8px; margin-bottom: 1rem; }
+  .step { flex: 1; padding: 8px; text-align: center; font-size: 12px; border-radius: 8px; background: #f3f4f6; color: #9ca3af; }
+  .step.done { background: #dcfce7; color: #166534; }
+  .step.active { background: #ede9fe; color: #4c1d95; font-weight: 600; animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+  @media (max-width: 520px) {
+    .controls, .img-controls { grid-template-columns: 1fr; }
+    .week-grid { gap: 4px; }
+    .day-btn { padding: 8px 2px; }
+    .tabs { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📸 Ferreira Soluções — Gerador IA</h1>
+  <p class="subtitle">@ferreira.eletrotech · Postagens + Prompts de Imagem · Powered by Groq</p>
+
+  <div class="api-card">
+    <label>🔑 Chave de API do Groq</label>
+    <div class="api-row">
+      <input type="password" id="apiKey" placeholder="gsk_..." autocomplete="off" />
+      <button class="test-btn" onclick="testKey()">Testar</button>
+    </div>
+    <p class="api-hint">Chave gratuita em <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a> · rode via <code>python -m http.server 8080</code></p>
+    <div class="test-result" id="testResult"></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('postagem')">✍️ Só Postagem</button>
+    <button class="tab" onclick="switchTab('imagem')">🎨 Imagem + Legenda</button>
+  </div>
+
+  <!-- PAINEL POSTAGEM -->
+  <div class="panel active" id="panel-postagem">
+    <div class="week-grid">
+      <div class="day-btn active" data-panel="post" data-day="0"><span class="day-name">Dom</span><span class="day-theme">Inspiração</span></div>
+      <div class="day-btn" data-panel="post" data-day="1"><span class="day-name">Seg</span><span class="day-theme">Dica TI</span></div>
+      <div class="day-btn" data-panel="post" data-day="2"><span class="day-name">Ter</span><span class="day-theme">Elétrica</span></div>
+      <div class="day-btn" data-panel="post" data-day="3"><span class="day-name">Qua</span><span class="day-theme">Serviço</span></div>
+      <div class="day-btn" data-panel="post" data-day="4"><span class="day-name">Qui</span><span class="day-theme">Antes/Depois</span></div>
+      <div class="day-btn" data-panel="post" data-day="5"><span class="day-name">Sex</span><span class="day-theme">Educativo</span></div>
+      <div class="day-btn" data-panel="post" data-day="6"><span class="day-name">Sáb</span><span class="day-theme">Promoção</span></div>
+    </div>
+    <div class="controls">
+      <div class="ctrl">
+        <label>Tema</label>
+        <select id="postTema">
+          <option value="auto">Automático (dia da semana)</option>
+          <option value="informatica">Informática / PC / Notebook</option>
+          <option value="eletrica">Elétrica Residencial</option>
+          <option value="antes_depois">Antes e Depois</option>
+          <option value="dica">Dica Técnica Educativa</option>
+          <option value="servico">Divulgação de Serviço</option>
+          <option value="automacao">Automação Residencial</option>
+          <option value="redes">Redes Wi-Fi / Câmeras</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Formato</label>
+        <select id="postFormato">
+          <option value="feed">Feed (Imagem)</option>
+          <option value="reels">Reels (Vídeo curto)</option>
+          <option value="stories">Stories</option>
+        </select>
+      </div>
+    </div>
+    <button class="gen-btn" id="genBtnPost" onclick="generatePost()">⚡ Gerar postagem</button>
+    <div id="outputPost"></div>
+  </div>
+
+  <!-- PAINEL IMAGEM + LEGENDA -->
+  <div class="panel" id="panel-imagem">
+    <div class="img-controls">
+      <div class="ctrl">
+        <label>Tipo de serviço</label>
+        <select id="imgServico">
+          <option value="manutencao_pc">Manutenção de PC/Notebook</option>
+          <option value="eletrica">Elétrica Residencial</option>
+          <option value="redes_wifi">Redes Wi-Fi</option>
+          <option value="cameras">Câmeras de Segurança</option>
+          <option value="automacao">Automação Residencial</option>
+          <option value="montagem_pc">Montagem de PC</option>
+          <option value="antes_depois">Antes e Depois</option>
+          <option value="tecnico_trabalho">Técnico em Ação</option>
+          <option value="logo_marca">Arte de Marca / Logo</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Estilo visual</label>
+        <select id="imgEstilo">
+          <option value="fotografico">Fotografia Realista</option>
+          <option value="cinematic">Cinematográfico</option>
+          <option value="flat_design">Flat Design / Ilustração</option>
+          <option value="3d_render">3D Render</option>
+          <option value="dark_tech">Dark Tech / Neon</option>
+          <option value="clean_profissional">Clean Profissional</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Plataforma</label>
+        <select id="imgPlataforma">
+          <option value="universal">Universal</option>
+          <option value="midjourney">Midjourney</option>
+          <option value="dalle">DALL-E 3</option>
+          <option value="leonardo">Leonardo.ai</option>
+          <option value="stable">Stable Diffusion</option>
+        </select>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="ctrl">
+        <label>Formato da imagem</label>
+        <select id="imgFormatoPost">
+          <option value="feed">Feed quadrado (1:1)</option>
+          <option value="portrait">Feed retrato (4:5)</option>
+          <option value="stories">Stories vertical (9:16)</option>
+          <option value="landscape">Horizontal (16:9)</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Tom da legenda</label>
+        <select id="imgTom">
+          <option value="profissional">Profissional e confiável</option>
+          <option value="descontraido">Descontraído e próximo</option>
+          <option value="urgencia">Urgência / Oferta especial</option>
+          <option value="educativo">Educativo / Dica técnica</option>
+        </select>
+      </div>
+    </div>
+    <button class="gen-btn green" id="genBtnImg" onclick="generateImageAndCaption()">🎨 Gerar prompt + legenda</button>
+    <div id="outputImg"></div>
+  </div>
+</div>
+
+<script>
+const DAYS = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+const DAY_THEMES = ['inspiração e motivação','dica de TI e informática','elétrica residencial e segurança','divulgação de serviço','antes e depois de serviço','conteúdo educativo técnico','promoção e chamada para orçamento'];
+const DAY_FORMATS = ['feed','feed','reels','feed','feed','feed','reels'];
+let selectedDay = 0;
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['postagem','imagem'][i] === tab));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+document.querySelectorAll('.day-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const panel = this.dataset.panel;
+    document.querySelectorAll(`.day-btn[data-panel="${panel}"]`).forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    selectedDay = parseInt(this.dataset.day);
+  });
+});
+
+async function testKey() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const result = document.getElementById('testResult');
+  if (!apiKey) { result.className = 'test-result fail'; result.textContent = '❌ Cole a chave antes de testar.'; return; }
+  result.className = 'test-result'; result.style.display = 'block'; result.textContent = '🔄 Testando...';
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/models', { headers: { 'Authorization': 'Bearer ' + apiKey } });
+    if (res.ok) { result.className = 'test-result ok'; result.textContent = '✅ Chave válida!'; }
+    else { const e = await res.json(); result.className = 'test-result fail'; result.textContent = '❌ ' + (e?.error?.message || 'Chave inválida'); }
+  } catch(e) { result.className = 'test-result fail'; result.textContent = '❌ Erro de conexão. Rode via localhost.'; }
+}
+
+async function callGroq(systemPrompt, userPrompt) {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) throw new Error('Cole sua chave do Groq primeiro.');
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      max_tokens: 1500,
+      temperature: 0.85,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ]
+    })
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e?.error?.message || 'Erro ' + res.status); }
+  const data = await res.json();
+  return JSON.parse(data.choices[0].message.content);
+}
+
+function setProgress(outputEl, steps, activeIndex) {
+  const html = `<div class="progress-steps">${steps.map((s,i) => `<div class="step ${i < activeIndex ? 'done' : i === activeIndex ? 'active' : ''}">${i < activeIndex ? '✅' : i === activeIndex ? '⏳' : '⬜'} ${s}</div>`).join('')}</div>`;
+  outputEl.innerHTML = html;
+}
+
+async function generatePost() {
+  const themeEl = document.getElementById('postTema');
+  const formatEl = document.getElementById('postFormato');
+  const output = document.getElementById('outputPost');
+  const btn = document.getElementById('genBtnPost');
+  let theme = themeEl.value === 'auto' ? DAY_THEMES[selectedDay] : themeEl.options[themeEl.selectedIndex].text;
+  let formatVal = themeEl.value === 'auto' ? DAY_FORMATS[selectedDay] : formatEl.value;
+  const formatLabel = formatVal === 'reels' ? 'Reels' : formatVal === 'stories' ? 'Stories' : 'Feed';
+  const day = DAYS[selectedDay];
+  btn.disabled = true; btn.textContent = 'Gerando...';
+  output.innerHTML = '<div class="status">⚡ Gerando postagem...</div>';
+  try {
+    const post = await callGroq(
+      'Especialista em marketing digital para pequenas empresas brasileiras. Responda apenas em JSON válido puro.',
+      `Postagem Instagram para Ferreira Soluções (@ferreira.eletrotech). Técnico Richardson em Saquarema-RJ: PCs, notebooks, elétrica, Wi-Fi, automação, câmeras. Tom profissional e acessível.
+DIA: ${day} | TEMA: ${theme} | FORMATO: ${formatLabel}
+JSON: {"caption":"max 120 palavras, max 6 emojis, gancho forte, CTA para WhatsApp ou Direct","hashtags":"15 hashtags locais+profissionais","visual_tip":"dica do que fotografar/filmar em 1-2 frases"}`
+    );
+    const typeClass = formatVal === 'reels' ? 'type-reels' : formatVal === 'stories' ? 'type-stories' : 'type-feed';
+    const typeText = formatVal === 'reels' ? '🎬 Reels' : formatVal === 'stories' ? '⭕ Stories' : '🖼️ Feed';
+    const fullText = post.caption + '\n\n' + post.hashtags;
+    output.innerHTML = `<div class="card">
+      <div class="card-header"><span class="post-type ${typeClass}">${typeText}</span><span class="card-day">📅 ${day}</span></div>
+      <div class="section-label">Legenda</div>
+      <div class="caption-box">${post.caption}</div>
+      <div class="section-label">Hashtags</div>
+      <div class="hashtags-box">${post.hashtags}</div>
+      <div class="section-label">Visual sugerido</div>
+      <div class="visual-box">📷 ${post.visual_tip}</div>
+      <div class="actions">
+        <button class="action-btn primary" id="copyPost" onclick="copyText('copyPost',${JSON.stringify(fullText)})">📋 Copiar legenda + hashtags</button>
+        <button class="action-btn" onclick="generatePost()">🔄 Nova versão</button>
+      </div>
+    </div>`;
+  } catch(e) {
+    output.innerHTML = `<div class="error-box">❌ ${e.message}<br><small>Rode via <code>python -m http.server 8080</code></small></div>`;
+  }
+  btn.disabled = false; btn.textContent = '⚡ Gerar postagem';
+}
+
+async function generateImageAndCaption() {
+  const servicoEl = document.getElementById('imgServico');
+  const estiloEl = document.getElementById('imgEstilo');
+  const plataformaEl = document.getElementById('imgPlataforma');
+  const formatoEl = document.getElementById('imgFormatoPost');
+  const tomEl = document.getElementById('imgTom');
+  const output = document.getElementById('outputImg');
+  const btn = document.getElementById('genBtnImg');
+
+  const servico = servicoEl.options[servicoEl.selectedIndex].text;
+  const estilo = estiloEl.options[estiloEl.selectedIndex].text;
+  const plataforma = plataformaEl.value;
+  const plataformaText = plataformaEl.options[plataformaEl.selectedIndex].text;
+  const formato = formatoEl.options[formatoEl.selectedIndex].text;
+  const tom = tomEl.options[tomEl.selectedIndex].text;
+
+  const steps = ['Gerando prompt de imagem', 'Criando legenda combinada', 'Finalizando'];
+  btn.disabled = true; btn.textContent = 'Gerando...';
+
+  try {
+    // PASSO 1: gerar prompt de imagem
+    setProgress(output, steps, 0);
+    const imgResult = await callGroq(
+      'Especialista em prompts para IA geradora de imagens. JSON válido puro apenas.',
+      `Crie um prompt de imagem para IA geradora de imagens. NAO mencione nenhum nome de empresa, marca, pessoa ou arroba.
+
+SERVICO/CENA: ${servico} | ESTILO VISUAL: ${estilo} | PLATAFORMA: ${plataformaText} | FORMATO: ${formato}
+
+Descreva APENAS elementos visuais: cena, ambiente, iluminacao, cores, composicao, angulo, atmosfera, equipamentos tecnicos. Transmita profissionalismo e competencia tecnica pela cena. Sem nomes, logos, textos ou marcas visiveis.
+
+JSON: {"prompt_en":"prompt visual detalhado em ingles SEM nenhum nome de empresa ou pessoa, com parametros da plataforma ${plataformaText}","prompt_pt":"mesma descricao em portugues, sem nomes de empresa ou pessoa","negative_prompt":"text, watermark, logo, brand name, company name, low quality, blurry, distorted","dica":"dica de como usar este prompt na plataforma ${plataformaText}"}`
+    );
+
+    // PASSO 2: gerar legenda baseada no prompt
+    setProgress(output, steps, 1);
+    const captionResult = await callGroq(
+      'Especialista em marketing digital para pequenas empresas brasileiras. JSON válido puro apenas.',
+      `Crie legenda Instagram para Ferreira Soluções (@ferreira.eletrotech) baseada nesta imagem que será gerada por IA:
+
+DESCRIÇÃO DA IMAGEM: ${imgResult.prompt_pt}
+SERVIÇO MOSTRADO: ${servico}
+TOM: ${tom}
+EMPRESA: Técnico Richardson Ferreira em Saquarema-RJ. Serviços: PCs, notebooks, elétrica residencial, Wi-Fi, automação, câmeras.
+
+A legenda deve descrever/contextualizar a imagem de forma envolvente, com CTA para WhatsApp ou Direct.
+JSON: {"caption":"legenda max 120 palavras, max 6 emojis, gancho que remete à imagem, CTA para WhatsApp ou Direct","hashtags":"15 hashtags locais+profissionais+nicho"}`
+    );
+
+    setProgress(output, steps, 2);
+
+    // MONTAR RESULTADO FINAL
+    const badgeClass = { midjourney:'badge-midjourney', dalle:'badge-dalle', leonardo:'badge-leonardo', stable:'badge-stable', universal:'badge-universal' }[plataforma] || 'badge-universal';
+    const fullText = captionResult.caption + '\n\n' + captionResult.hashtags;
+
+    output.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <span class="platform-badge ${badgeClass}">${plataformaText}</span>
+        <span class="card-day">🎨 ${servico}</span>
+      </div>
+
+      <div class="section-label">Prompt de imagem (Inglês)</div>
+      <div class="prompt-box">${imgResult.prompt_en}</div>
+
+      <div class="section-label">Prompt (Português)</div>
+      <div class="prompt-pt">${imgResult.prompt_pt}</div>
+
+      ${imgResult.negative_prompt ? `<div class="section-label">Negative Prompt</div><div class="negative-box">🚫 ${imgResult.negative_prompt}</div>` : ''}
+
+      <div class="section-label">💡 Como usar</div>
+      <div class="visual-box">${imgResult.dica}</div>
+
+      <div class="divider"><span>✍️ Legenda para este post</span></div>
+
+      <div class="section-label">Legenda</div>
+      <div class="caption-box">${captionResult.caption}</div>
+
+      <div class="section-label">Hashtags</div>
+      <div class="hashtags-box">${captionResult.hashtags}</div>
+
+      <div class="actions">
+        <button class="action-btn green" id="copyPrompt" onclick="copyText('copyPrompt',${JSON.stringify(imgResult.prompt_en)})">📋 Copiar prompt</button>
+        <button class="action-btn primary" id="copyCaption" onclick="copyText('copyCaption',${JSON.stringify(fullText)})">📋 Copiar legenda + hashtags</button>
+        <button class="action-btn" onclick="generateImageAndCaption()">🔄 Gerar novamente</button>
+      </div>
+    </div>`;
+
+  } catch(e) {
+    output.innerHTML = `<div class="error-box">❌ ${e.message}<br><small>Rode via <code>python -m http.server 8080</code></small></div>`;
+  }
+  btn.disabled = false; btn.textContent = '🎨 Gerar prompt + legenda';
+}
+
+function copyText(btnId, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const b = document.getElementById(btnId);
+    if (b) { const orig = b.textContent; b.textContent = '✅ Copiado!'; setTimeout(() => { b.textContent = orig; }, 2000); }
+  });
+}
+</script>
+</body>
+</html>
